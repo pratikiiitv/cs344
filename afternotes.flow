@@ -1,0 +1,154 @@
+04/02/2025
+3D Modeling
+
+Objects exhibit dynamic behavior and can react to the user input
+Abstract, invisible objects that support the simulation and rendering
+of the virtual world
+- Light and sound sources
+- Virtual cameras
+- Proxy objects for different collision checks and physics calculations
+- Real time capability and interactivity updated and displayed
+immediately (without noticeable delay)
+
+User Interaction
+- Navigation and object manipulation
+
+Collision Geometries
+- Cuboids or spheres
+- Not only for 3D objects but also for users
+
+Manual - Blender, Unity, Unreal 
+3D Scans
+Photogrammetric Methods - multiple camera images
+(Simplifying the geometry and removing shadows or 
+viewpoint dependent hightlights from the object textures)
+
+File formats
+.obj, .3ds, .dae, .gltf, .x3d
+
+Scene Graph 
+
+Coordinate Transforms
+Scene Geometry and Description
+
+Ex. T:= Triangle in \mathbb{R}^2
+A := [2,3]^T, B:=[4,4]^T, C:=[3,-1]^T
+Find projected triagle on 5x_1+x_2-4=0
+from the viewpoint V:=[10,2]^T.
+
+Note: It is to be noted that the points in vector space are
+represented as column vectors and no more "T" will be used.
+
+Parametric representation of ray 
+VA(t) := V + (A-V)*t, t\in \mathbb{R}
+
+VA(t) = [10,2] + ([2,3]-[10,2])*t
+5*(10-8t) + (2+t) - 4 =0
+t = 16/13
+VA(t=16/13) = [10,2] + [-8,1]*16/13
+
+Linear transformation
+A function \phi:\mathbb{R}^n\to\mathbb{R}^n is said to be linear 
+//if (i) \phi(a \times x) = a\times \phi(x), 
+//a\in \mathbb{R}, x\in \mathbb{R}^n
+If (*) \forall x_1, x_2 \in \mathbb{R}^n, a,b \in \mathbb{R}
+\phi(a\times x_1 + b\times x_2) =
+a\times \phi(x_1) + b\times \phi(x_2)
+(Homogenity and Superposition)
+ 
+Ex. Find a linear transformation which "Translates" T
+2 units in x_1 direction and 4 units in x_2 direction. 
+A' = A + [2,4]
+\phi(x) = x + [2,4]
+\phi(2*x) = 2*x + [2,4] != 2*(x+[2,4])
+Augment with an additional coordinate A_ = [A | 1] [2 4 | 1]
+
+T = [1 0 2; 0 1 4; 0 0 1]
+T \times A_ = T \times [2 3 1]'
+= [2+2 3+4 | 1] = [4 7 | 1]
+Homogeneous Coordinate System
+
+x -> \phi x , x\in \mathbb{R}^n and \phi \in \mathbb{R}^{n\times n}
+
+----
+11/02/2025
+Coordinate Systems and Change of Coordinate Systems (Basis!)
+
+World Coordinate System (fixed for a scene)
+Object Coordinate System
+Camera Coordinate System
+
+Rotation in 3D
+Rodrigue's Formula (Matrix Exponential)
+e^x = 1 + x + x^2/2! + x^3/3! + ...
+e^X = 1 + X + X^2/2! + X^3/3! + ...
+X is antisymmetric with diagonals being zero
+
+w = [w_x w_y w_z]^T
+[w] = [0 -w_z w_y; w_z 0 -w_x; -w_y w_x 0]; 
+w  is the axis of rotation
+||w|| is the magnitude of rotation 
+e^[w] is a rotation matrix w.r.t. w axis by angle ||w||
+e^[w] = I + sin(||w||) [w] + (1-cos(||w||))[w]^2
+
+Ex: 
+Open blender, 
+locate python terminal
+Find out objects present in the scene
+Cube object
+w = [1 1 1]^T -> R = e^[w]
+a. Rotate the cube by R 
+b. Translate the cube by 5 units in x direction
+c. Make a video with 60 fps
+    c.1 Cube moves in a circular orbit around origin of world 
+    coordinate system (orbit radius 5) and completes one 
+    revolution in 6 seconds in xy plane.
+    c.2 Rotate the cube in cube coordinate system w.r.t. [1 1 1]
+    axis such that it completes two complete rotations in 6 seconds.
+d. Create 360 video with camera sitting at the center of
+    the world coordinate system.
+e. Put two other cubes with similar motion in yz and xz planes.
+f. Include sounds  (Pure tones and superpositions)
+    f.1 1000hz to 2000hz in 6 seconds for world centered rotation (linear change in 
+    frequency)
+    f.2 1000hz to 2000hz to 1000hz in 3+3=6 seconds for object centered 
+    rotation 
+
+---
+18/02/2025
+
+World Coordinate System: WC
+Object Coordinate System: OC
+Viewer Coordinate System: VC 
+
+Ex: A point V is represented in standard basis 
+B = {[1 0]', [0 1]'}
+[v]_B = [1 1]'
+[V] = 1*[1 0]' + 1*[0 1]'
+
+Find its representation w.r.t. basis C
+C = {[1 1]', [1 -1]'}
+[v]_C = [a_1 a_2]'
+[V] = a_1 * [1 1]' + a_2 * [1 -1]'
+
+B*[1 1]' = C*[a_1 a_2]'
+[a_1 a_2]' = inv(C)*B*[1 1]' 
+[v]_C = inv(C)*[v]_B
+
+Change of coordinate system <-> Change of basis
+* We work in homogeneous coordinate system
+
+Quiz Ex: Intersection of Ray and Sphere
+Sphere : center = x_c, radius = r
+||x-x_c||^2 = r^2 
+<x-x_c | x-x_c> = r^2 --- (A)
+Ray p(t) : p + t * d, t>=0, d - direction vector, p - Viewer/ Camera Position
+Substitute x=p(t) in (A) for finding Intersection
+< p + t*d - x_c | p + t*d - x_c > = r^2
+<d|d> * t^2 + 2 * <p-x_c | d> * t + <p-x_c|p-x_c> = r^2
+t^2 + 2 * <p-x_c | d> * t + (||p-x_c||^2-r^2) = 0
+Delta = (2 * <p-x_c | d>)^2 - 4*(||p-x_c||^2-r^2)
+
+
+
+
