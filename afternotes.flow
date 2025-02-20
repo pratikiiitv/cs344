@@ -153,14 +153,19 @@ Delta = (2 * <p-x_c | d>)^2 - 4*(||p-x_c||^2-r^2)
 20/02/2025
 
 Sound (Audio)
+Physiology of human hearing system
+Frequency selective response/ sensitivity
 Pressure -> Electrical -> Function!
 Vector Space and Basis
 Sinusoids as basis of vector space of functions
 Recording sound, sampling rate (samples per second), quantization levels (number of bits per sample)
 Echo and Reverb
 Noise reduction as averaging/ filtering
-
-
+Fourier Analysis and Synthesis
+Multipath effect modeling the sound at a particular location in Virtual environment
+Sound source and far field effect
+Heat map of sound (decible)
+Radiation pattern!
 
 
 
